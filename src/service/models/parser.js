@@ -1,4 +1,4 @@
-import MESSAGES from './messages.js';
+import { parserValidator } from "../validators/parserValidator";
 
 const inputParser = (input) => {
   if (!input || input.trim() === '') return [];
@@ -11,9 +11,7 @@ const inputParser = (input) => {
   if (parsedInput) {
     const [, customDelimiter, restNumbers] = parsedInput;
 
-    if (!/^[^\d\s]$/.test(customDelimiter)) {
-      throw new Error(MESSAGES.INVALID_DELIMITER_ERROR);
-    }
+    parserValidator(customDelimiter);
 
     delimiters.push(customDelimiter);
     numbersArray = restNumbers;
