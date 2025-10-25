@@ -1,50 +1,44 @@
-import calculator from '../src/calculator.js';
-import MESSAGES from '../src/messages.js';
+import calculator from "../src/service/models/calculator.js";
+import { ERROR_MESSAGES } from "../src/constants/messages";
 
 describe("calculator", () => {
-  describe("성공 예시", () => {
-    test("정상 양수 배열", () => {
-      const numbers = [1, 2, 3, 4, 5];
-      expect(calculator(numbers)).toBe(15);
+  describe("GIVEN: 유효 숫자 배열", () => {
+    it("THEN: 배열의 합 반환", () => {
+      const positiveNumbers = [1, 2, 3, 4, 5];
+      const numbersWithZero = [1, 2, 0, 4, 5];
+      const singleNumber = [7];
+
+      expect(calculator(positiveNumbers)).toBe(15);
+      expect(calculator(numbersWithZero)).toBe(12);
+      expect(calculator(singleNumber)).toBe(7);
     });
 
-    test("배열에 0이 포함된 경우", () => {
-      const numbers = [1, 2, 0, 4, 5];
-      expect(calculator(numbers)).toBe(12);
-    });
-
-    test("단일 숫자", () => {
-      const numbers = [7];
-      expect(calculator(numbers)).toBe(7);
-    });
-  });
-
-  describe("예외 예시", () => {
-    test("빈 배열인 경우", () => {
-      const numbers = [];
-      expect(calculator(numbers)).toBe(0);
-    });
-
-    test("배열이 아닌 경우", () => {
-      expect(calculator(null)).toBe(0);
-      expect(calculator(undefined)).toBe(0);
-    });
-
-    test("배열에 음수가 포함된 경우", () => {
-      const numbers = [1, -2, 3];
-      expect(() => calculator(numbers)).toThrow(MESSAGES.INVALID_INPUT);
-    });
-
-    test("배열에 NaN이 포함된 경우", () => {
-      const numbers = [1, 2, NaN];
-      expect(() => calculator(numbers)).toThrow(MESSAGES.INVALID_INPUT);
-    });
-  });
-
-  describe("반환값 타입", () => {
-    test("반환값 테스트", () => {
+    it("THEN: 반환값의 타입은 숫자", () => {
       const numbers = [10, 20];
-      expect(typeof calculator(numbers)).toBe('number');
+      const result = calculator(numbers);
+      expect(typeof result).toBe('number');
+    });
+  });
+
+  describe("GIVEN: 빈 배열", () => {
+    it("THEN: 0 반환", () => {
+      const emptyArray = [];
+      const nullInput = null;
+      const undefinedInput = undefined;
+
+      expect(calculator(emptyArray)).toBe(0);
+      expect(calculator(nullInput)).toBe(0);
+      expect(calculator(undefinedInput)).toBe(0);
+    });
+  });
+
+  describe("GIVEN: 유효하지 않은 배열", () => {
+    it("THEN: INVALID_INPUT 에러를 던진다", () => {
+      const numbersWithNegative = [1, -2, 3];
+      const numbersWithNaN = [1, 2, NaN];
+
+      expect(() => calculator(numbersWithNegative)).toThrow(ERROR_MESSAGES.INVALID_INPUT);
+      expect(() => calculator(numbersWithNaN)).toThrow(ERROR_MESSAGES.INVALID_INPUT);
     });
   });
 });
