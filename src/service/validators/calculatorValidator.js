@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES } from "../../constants/messages";
+import { ERROR_MESSAGES } from "../../constants/messages.js";
 
 export const calculatorValidator = (numbers) => {
   if (numbers.some((n) => Number.isNaN(n) || n < 0)) {

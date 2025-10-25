@@ -1,20 +1,10 @@
-import { Console } from '@woowacourse/mission-utils';
-import MESSAGES from './messages.js';
-import calculator from './calculator.js';
-import inputParser from './inputParser.js';
+import Controller from "./controller/controller.js";
 
 class App {
- async run(){
-  try {
-    const input = await Console.readLineAsync(MESSAGES.START_MESSAGE)
-    const numbers = inputParser(input);
-    const sum = calculator(numbers);
-    Console.print(MESSAGES.RESULT_MESSAGE(sum));
-  } catch (error) {
-    Console.print(MESSAGES.ERROR_MESSAGE(error));
-    throw error;
+  async run() {
+    const controller = new Controller();
+    await controller.run();
   }
- }
 }
 
-export default App; 
+export default App;

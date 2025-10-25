@@ -1,6 +1,6 @@
-import { parserValidator } from "../validators/parserValidator";
+import { parserValidator } from "../validators/parserValidator.js";
 
-const inputParser = (input) => {
+const parser = (input) => {
   if (!input || input.trim() === '') return [];
 
   const parsedInput = input.match(/^\/\/(.+)\\n(.*)$/);
@@ -23,4 +23,4 @@ const inputParser = (input) => {
   return numbers;
 };
 
-export default inputParser;
+export default parser;

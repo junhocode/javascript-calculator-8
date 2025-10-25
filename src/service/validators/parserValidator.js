@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES } from "../../constants/messages";
+import { ERROR_MESSAGES } from "../../constants/messages.js";
 
 const CUSTOM_DELIMITER_VALIDATION_REGEX = /^[^\d\s]$/;
 
