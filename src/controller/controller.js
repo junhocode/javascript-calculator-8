@@ -11,9 +11,9 @@ export default class Controller {
 
       const numbers = parser(userInput);
 
-      const result = calculator(numbers);
+      const sum = calculator(numbers);
 
-      await OutputView.printMessage(UI_MESSAGES.RESULT);
+      await OutputView.printMessage(UI_MESSAGES.RESULT(sum));
     } catch (error) {
       await OutputView.printMessage(ERROR_MESSAGES.WRAPPED);
       throw error;

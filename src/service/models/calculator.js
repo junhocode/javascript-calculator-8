@@ -1,4 +1,4 @@
-import { calculatorValidator } from './calculatorValidator.js';
+import { calculatorValidator } from "../validators/calculatorValidator.js";
 
 const calculator = (numbers) => {
   if (!Array.isArray(numbers) || numbers.length === 0) {
