@@ -1,5 +1,5 @@
 import { Console } from '@woowacourse/mission-utils';
-import { UI_MESSAGES } from '../constants/messages';
+import { UI_MESSAGES } from '../constants/messages.js';
 
 class OutputView {
   static printSum(sum) {

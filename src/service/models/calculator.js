@@ -1,13 +1,30 @@
-import { calculatorValidator } from "../validators/calculatorValidator.js";
+import { ERROR_MESSAGES } from "../../constants/messages.js";
 
-const calculator = (numbers) => {
-  if (!Array.isArray(numbers) || numbers.length === 0) {
-    return 0;
+class Calculator {
+  #numbers;
+
+  constructor(numbers) {
+    this.#numbers = numbers;
   }
 
-  calculatorValidator(numbers);
+  static #validateNumbers(numbers) {
+    if (!Array.isArray(numbers)) throw new Error(ERROR_MESSAGES.INVALID_INPUT);
 
-  return numbers.reduce((acc, curr) => acc + curr, 0);
-};
+    if (numbers.some(num => typeof num !== 'number' || isNaN(num))) throw new Error(ERROR_MESSAGES.IS_NAN);
+  }
+  
+  static create(numbers) {
+    this.#validateNumbers(numbers);
+    return new Calculator(numbers);
+  }
 
-export default calculator;
+  add() {
+    const numbers = this.#numbers;
+
+    if (numbers.some(num => num < 0)) throw new Error(ERROR_MESSAGES.IS_NEGATIVE);
+
+    return this.#numbers.reduce((acc, curr) => acc + curr, 0);
+  }
+}
+
+export default Calculator;
