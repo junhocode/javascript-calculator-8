@@ -1,26 +1,45 @@
-import { parserValidator } from "../validators/parserValidator.js";
+import { ERROR_MESSAGES } from "../../constants/messages.js";
 
-const parser = (input) => {
-  if (!input || input.trim() === '') return [];
+const CUSTOM_DELIMITER_VALIDATION_REGEX = /^[^\d\s]$/;
 
-  const parsedInput = input.match(/^\/\/(.+)\\n(.*)$/);
+class Parser {
+  #input;
 
-  let numbersArray = input;
-  let delimiters = [',', ':'];
-
-  if (parsedInput) {
-    const [, customDelimiter, restNumbers] = parsedInput;
-
-    parserValidator(customDelimiter);
-
-    delimiters.push(customDelimiter);
-    numbersArray = restNumbers;
+  constructor(input) {
+    this.#input = input;
   }
 
-  const delimiterRegex = new RegExp(`[${delimiters.join('')}]`);
-  const numbers = numbersArray.split(delimiterRegex).map(Number);
+  static #validateDelimiter(customDelimiter) {
+    if (!CUSTOM_DELIMITER_VALIDATION_REGEX.test(customDelimiter)) {
+      throw new Error(ERROR_MESSAGES.INVALID_DELIMITER);
+    }
+  }
 
-  return numbers;
-};
+  #matchDelimiter() {
+  const defaultDelimiters = [",", ":"];
+  let numbers = this.#input;
 
-export default parser;
+  const matches = this.#input.match(/^\/\/(?<delimiter>.)\\n(?<numbers>.*)/s);
+    if (matches && matches.groups) {
+      const { delimiter: customDelimiter, numbers: matchedNumbers } = matches.groups;
+      Parser.#validateDelimiter(customDelimiter);
+      return {
+        delimiters: [...defaultDelimiters, customDelimiter],
+        numbers: matchedNumbers,
+      };
+    }
+    return { delimiters: defaultDelimiters, numbers };
+  }
+
+  #divideNumbers(delimiters, numbers) {
+    const pattern = new RegExp(`[${delimiters.join('')}]`);
+    return numbers.split(pattern).map(Number);
+  }
+
+  parse() {
+    const { delimiters, numbers } = this.#matchDelimiter();
+    return this.#divideNumbers(delimiters, numbers);
+  }
+}
+
+export default Parser;
