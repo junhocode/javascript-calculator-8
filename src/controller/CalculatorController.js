@@ -7,9 +7,9 @@ class CalculatorController {
   async run() {
     try {
       const userInput = await InputView.getUserInput();
-      console.log(userInput);
+
       const numbers = new Parser(userInput).parse();
-      console.log(numbers);
+
       const sum = Calculator.create(numbers).add();
 
       OutputView.printSum(sum);
