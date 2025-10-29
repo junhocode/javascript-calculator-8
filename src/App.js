@@ -1,9 +1,9 @@
-import Controller from "./controller/controller.js";
+import CalculatorController from "./controller/CalculatorController.js";
 
 class App {
   async run() {
-    const controller = new Controller();
-    await controller.run();
+    const calculatorController = new CalculatorController();
+    await calculatorController.run();
   }
 }
 
